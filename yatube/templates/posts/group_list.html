@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1 style="margin-left: 80px; margin-top: 50px;">Лев Толстой – зеркало русской революции.</h1>
+    <p  style="margin-left: 80px; margin-top: 10px;">Группа тайных поклонников графа.</p>
+    {% for post in posts %}
+        <div style="margin-left: 80px;">
+            <ul>
+                <li>
+                    Автор: {{ post.author.get_full_name }}
+                </li>
+                <li>
+                    Дата публикации: {{ post.pub_date|date:"d E Y" }}
+                </li>
+            </ul>
+            <p>
+                {{ post.text }}
+            </p>
+            {% if not forloop.last %}
+                <hr>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endblock %}
