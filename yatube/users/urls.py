@@ -3,10 +3,13 @@ from django.urls import path
 
 app_name = 'users'
 
+from django.urls import path
+from . import views
+
 urlpatterns = [
-path(
-      'logout/',
+    path('logout/',
       LogoutView.as_view(template_name='users/logged_out.html'),
-      name='logout'
-    ),
+      name='logout'),
+    path('signup/', views.SignUp.as_view(), name='signup'),
+
 ]
