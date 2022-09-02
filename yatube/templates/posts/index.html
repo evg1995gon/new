@@ -4,9 +4,11 @@
         {% for post in page_obj %}
             <div style="margin-left: 80px;">
                 <ul>
+                    {% if post.author %}
                     <li>
                         Автор: {{ post.author.get_full_name }}
                     </li>
+                    {% endif %}
                     <li>
                         Дата публикации: {{ post.pub_date|date:"d E Y" }}
                     </li>
