@@ -2,7 +2,7 @@
 {% block content %}
     <h1 style="margin-left: 80px; margin-top: 50px;">Лев Толстой – зеркало русской революции.</h1>
     <h3  style="margin-left: 80px; margin-top: 10px;">Группа {{ group.title }}.</h3>
-    {% for post in posts %}
+    {% for post in page_obj %}
         <div style="margin-left: 80px;">
             <ul>
                 <li>
@@ -20,4 +20,5 @@
             {% endif %}
         </div>
     {% endfor %}
+    {% include 'posts/includes/paginator.html' %}
 {% endblock %}
