@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
     <main>
+    <div class="container py-5">
       <div class="row">
         <aside class="col-12 col-md-3">
           <ul class="list-group list-group-flush">
@@ -31,14 +32,16 @@
           <p>
            {{ post.text }}
           </p>
-        </article>
-        {% if request.user.username == post.author.username  %}
+            {% if request.user.username == post.author.username  %}
         <div>
             <a class="btn btn-primary" href="{% url 'posts:update_post' post.pk %}">
                 Редактировать пост
             </a>
         </div>
       {% endif %}
+        </article>
+
       </div>
+    </div>
     </main>
 {% endblock %}
