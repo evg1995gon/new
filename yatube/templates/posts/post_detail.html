@@ -38,6 +38,12 @@
                 Редактировать пост
             </a>
         </div>
+            {% else %}
+                <div>
+            <a class="btn btn-primary" href="{% url 'posts:post_detail' post.pk %}">
+                Редактировать пост
+            </a>
+        </div>
       {% endif %}
         </article>
 

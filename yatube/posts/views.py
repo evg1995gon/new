@@ -73,51 +73,34 @@ def post_detail(request, post_id):
 @login_required
 def post_create(request):
     template = 'posts/create_post.html'
-
     current_user = request.user.username
-
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
-            # text = form.cleaned_data['text']
-            # group = form.cleaned_data['group']
             event = form.save(commit=False)
             event.author = request.user
             event.save()
-
             return redirect(f'/profile/{current_user}/')
-
         return render(request, template, context)
-
-
     form = PostForm()
     context = {
-        'form': form,
-    }
-
+        'form': form}
     return render(request, template, context)
 
 @login_required
 def post_edit(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    # post = Post.objects.get(id=post_id)
     template = 'posts/create_post.html'
-    form = PostForm(request.POST, instance=post)
-    is_edit = True
+    if request.method == 'GET':
+        form = PostForm(instance=post)
     if request.method == 'POST':
-        # form = PostForm(request.POST, instance=post)
+        form = PostForm(request.POST, instance=post)
         if form.is_valid():
             form.save()
             return redirect(f'/posts/{post_id}/')
-    else:
-        context = {
-            'post': post,
-            'form': form,
-            'is_edit': is_edit}
-        return render(request, template, context)
-    # context = {
-    #     'post': post,
-    #     'form': form,
-    #     'is_edit': is_edit}
-    #
-    # return render(request, template, context)
+    is_edit = True
+    context = {
+        'post': post,
+        'is_edit': is_edit,
+        'form':form}
+    return render(request, template, context)
