@@ -12,7 +12,7 @@
             {% if post.group %}
             <li class="list-group-item">
                     Группа: {{ post.group.title }}
-                        <a href="{% url 'posts:group_list' post.group.slug %}"> все записи группы </a>
+            <a href="{% url 'posts:group_list' post.group.slug %}"> все записи группы </a>
             </li>
             {% endif %}
             <li class="list-group-item">
@@ -31,7 +31,7 @@
         <article class="col-12 col-md-9">
           <p>
            {{ post.text }}
-          </p>
+          </p>x
             {% if request.user.username == post.author.username  %}
         <div>
             <a class="btn btn-primary" href="{% url 'posts:update_post' post.pk %}">
@@ -46,7 +46,6 @@
         </div>
       {% endif %}
         </article>
-
       </div>
     </div>
     </main>

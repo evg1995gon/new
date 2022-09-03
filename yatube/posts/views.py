@@ -4,34 +4,29 @@ from django.core.paginator import Paginator
 from .forms import PostForm
 from django.contrib.auth.decorators import login_required
 
+
 def index(request):
     template = 'posts/index.html'
     title = 'Последние обновления на сайте'
     posts = Post.objects.all()
-
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
     context = {
         'title': title,
         'posts': posts,
-        'page_obj':page_obj,}
-
+        'page_obj': page_obj}
     return render(request, template, context)
 
 
 def group_list(request, slug):
-
     group = get_object_or_404(Group, slug=slug)
     title = f'Записи сообщества {slug}'
     posts = group.posts.all()
     template = 'posts/group_list.html'
-
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
     context = {
         'page_obj': page_obj,
         'title': title,
@@ -43,23 +38,20 @@ def group_list(request, slug):
 def profile(request, username):
     user = get_object_or_404(User, username=username)
     posts = user.posts.all()
-    #posts = Post.objects.filter(author=user)  #можно и так
-
+    #  posts = Post.objects.filter(author=user)  можно и так
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
     context = {
         'user': user,
         'posts': posts,
-        'page_obj':page_obj,
-    }
+        'page_obj': page_obj}
     return render(request, 'posts/profile.html', context)
 
 
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    #post = Post.objects.get(id=post_id)
+    #  post = Post.objects.get(id=post_id)
     lol = post.author
     posts = Post.objects.filter(author=lol)
     title = post.text[0:30]
@@ -67,8 +59,8 @@ def post_detail(request, post_id):
         'posts': posts,
         'post': post,
     }
-
     return render(request, 'posts/post_detail.html', context)
+
 
 @login_required
 def post_create(request):
@@ -87,6 +79,7 @@ def post_create(request):
         'form': form}
     return render(request, template, context)
 
+
 @login_required
 def post_edit(request, post_id):
     post = get_object_or_404(Post, id=post_id)
@@ -102,5 +95,5 @@ def post_edit(request, post_id):
     context = {
         'post': post,
         'is_edit': is_edit,
-        'form':form}
+        'form': form}
     return render(request, template, context)

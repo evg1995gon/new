@@ -19,11 +19,9 @@ class SignUp(CreateView):
 
 
 class LoginUser(LoginView):
-
     form_class = AuthenticationForm
     template_name = 'users/login.html'
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_contex_data(**kwargs)
     #     return context
-
