@@ -58,8 +58,8 @@ def profile(request, username):
 
 
 def post_detail(request, post_id):
-
-    post = Post.objects.get(id=post_id)
+    post = get_object_or_404(Post, id=post_id)
+    #post = Post.objects.get(id=post_id)
     lol = post.author
     posts = Post.objects.filter(author=lol)
     title = post.text[0:30]
@@ -99,12 +99,23 @@ def post_create(request):
     return render(request, template, context)
 
 def post_edit(request, post_id):
-
+    post = get_object_or_404(Post, id=post_id)
+    #post = Post.objects.get(id=post_id)
     template = 'posts/create_post.html'
-    form = PostForm(request.GET)
+    form = PostForm(request.POST, instance=post)
+    if request.method == 'POST':
+        # form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('posts:profile', request.user.username)
+    else:
+        form = PostForm(request.POST, instance=post)
+
     is_edit = True
     context = {
-        'form':form,
-        'is_edit':is_edit,
+        'post': post,
+        'form': form,
+        'is_edit': is_edit,
     }
+
     return render(request, template, context)
