@@ -32,6 +32,13 @@
            {{ post.text }}
           </p>
         </article>
+        {% if request.user.username == post.author.username  %}
+        <div>
+            <a class="btn btn-primary" href="{% url 'posts:update_post' post.pk %}">
+                Редактировать пост
+            </a>
+        </div>
+      {% endif %}
       </div>
     </main>
 {% endblock %}

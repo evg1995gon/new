@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from posts.models import Post, Group, User
 from django.core.paginator import Paginator
 from .forms import PostForm
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     template = 'posts/index.html'
@@ -69,7 +70,7 @@ def post_detail(request, post_id):
 
     return render(request, 'posts/post_detail.html', context)
 
-
+@login_required
 def post_create(request):
     template = 'posts/create_post.html'
 
@@ -78,10 +79,11 @@ def post_create(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
-            text = form.cleaned_data['text']
-            group = form.cleaned_data['group']
-
-            form.save()
+            # text = form.cleaned_data['text']
+            # group = form.cleaned_data['group']
+            event = form.save(commit=False)
+            event.author = request.user
+            event.save()
 
             return redirect(f'/profile/{current_user}/')
 
@@ -94,4 +96,15 @@ def post_create(request):
         'form': form,
     }
 
+    return render(request, template, context)
+
+def post_edit(request, post_id):
+
+    template = 'posts/create_post.html'
+    form = PostForm(request.GET)
+    is_edit = True
+    context = {
+        'form':form,
+        'is_edit':is_edit,
+    }
     return render(request, template, context)

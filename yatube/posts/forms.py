@@ -13,3 +13,4 @@ class PostForm(ModelForm):
         if str(data) == 0:
             raise ValidationError('Это поле обязательно к заполнению')
         return data
+

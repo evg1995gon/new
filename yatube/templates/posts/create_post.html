@@ -1,13 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
+{% with request.resolver_match.view_name as view_name %}
     <main>
       <div class="container py-5">
         <div class="row justify-content-center">
           <div class="col-md-8 p-5">
             <div class="card">
+            {% if view_name == 'posts:post_create' %}
               <div class="card-header">       
-                Новый пост             
+                Создать пост
               </div>
+            {% else %}
+                <div class="card-header">
+                Редактировать пост
+              </div>
+            {% endif %}
               <div class="card-body">        
                 <form method="post" action="{% url 'posts:post_create' %}">
                     {% csrf_token %}
@@ -21,7 +28,11 @@
                     </div>
                     <div class="d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary">
-                      Сохранить
+                     {% if is_edit %}
+                        Сохранить
+                      {% else %}
+                        Добавить
+                      {% endif %}
                     </button>
                   </div>
                 </form>
@@ -31,4 +42,5 @@
         </div>
       </div>
     </main>
+{% endwith %}
 {% endblock %}
